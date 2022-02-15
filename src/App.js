@@ -16,7 +16,7 @@ const App = () => {
   const [customMsg, setCustomMsg] = useState('');
 
   const currentCall = useRef();
-  const currentConnect = useRef();
+  const currentConnection = useRef();
 
   const peer = useRef()
 
@@ -54,7 +54,7 @@ const App = () => {
         ])
       })
 
-      currentConnect.current = connection
+      currentConnection.current = connection
     })
 
     // 媒体传输
@@ -90,7 +90,7 @@ const App = () => {
 
     // 数据传输
     const connection = peer.current.connect(remoteId);
-    currentConnect.current = connection
+    currentConnection.current = connection
     connection.on('open', () => {
       message.info('已连接')
     })
@@ -113,10 +113,10 @@ const App = () => {
 
   const sendMsg = () => {
     // 发送自定义内容
-    if (!currentConnect.current) {
+    if (!currentConnection.current) {
       message.warn('还未建立链接')
     }
-    currentConnect.current.send(customMsg)
+    currentConnection.current.send(customMsg)
     setMessages((curtMessages) => [
       ...curtMessages,
       { id: curtMessages.length + 1, type: 'local', data: customMsg }
