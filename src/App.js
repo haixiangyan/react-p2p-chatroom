@@ -107,8 +107,8 @@ const App = () => {
       <button id="end-call" onClick={endCall}>结束通话</button>
 
       <div className={styles.live}>
-        <video controls className={styles.localVideo} ref={localVideo} />
-        <video controls className={styles.remoteVideo} ref={remoteVideo} muted />
+        <video controls className={styles.localVideo} autoPlay ref={localVideo} />
+        <video controls className={styles.remoteVideo} autoPlay ref={remoteVideo} muted />
       </div>
     </div>
   );
