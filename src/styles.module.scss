@@ -1,17 +1,7 @@
-.live {
-  display: flex;
-  position: relative;
+.container {
+  padding: 16px;
 
-  .local {
-    width: 45%;
-    margin-right: 16px;
-    video {
-      width: 100%;
-    }
-  }
-
-  .remote {
-    width: 45%;
+  .live {
     video {
       width: 100%;
     }

@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import Peer from "peerjs";
 
 import styles from './styles.module.scss'
+import {Button, Col, Input, Row, Space} from "antd";
 
 const App = () => {
   const [localId, setLocalId] = useState('');
@@ -100,22 +101,24 @@ const App = () => {
   }
 
   return (
-    <div>
-      <p>本地 Peer ID: {localId}</p>
-      <input value={remoteId} onChange={e => setRemoteId(e.target.value)} type="text" placeholder="对方 Peer 的 Id"/>
-      <button onClick={callUser}>视频通话</button>
-      <button id="end-call" onClick={endCall}>结束通话</button>
+    <div className={styles.container}>
+      <h1>本地 Peer ID: {localId}</h1>
+      <Space>
+        <Input value={remoteId} onChange={e => setRemoteId(e.target.value)} type="text" placeholder="对方 Peer 的 Id"/>
+        <Button type="primary" onClick={callUser}>视频通话</Button>
+        <Button danger onClick={endCall}>结束通话</Button>
+      </Space>
 
-      <div className={styles.live}>
-        <div className={styles.local}>
+      <Row gutter={16} className={styles.live}>
+        <Col span={12}>
           <h2>本地摄像头</h2>
           <video controls autoPlay ref={localVideo} />
-        </div>
-        <div className={styles.remote}>
+        </Col>
+        <Col span={12}>
           <h2>远程摄像头</h2>
           <video controls autoPlay ref={remoteVideo} muted />
-        </div>
-      </div>
+        </Col>
+      </Row>
     </div>
   );
 }
