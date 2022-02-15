@@ -2,9 +2,10 @@ import {useEffect, useRef, useState} from "react";
 import Peer from "peerjs";
 
 import styles from './styles.module.scss'
-import {Button, Col, Input, Row, Space} from "antd";
+import {Button, Col, Input, message, Row, Space, Spin} from "antd";
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const [localId, setLocalId] = useState('');
   const [remoteId, setRemoteId] = useState('');
 
@@ -34,12 +35,14 @@ const App = () => {
     peer.current = new Peer();
     peer.current.on("open", (id) => {
       setLocalId(id)
+      setLoading(false)
     });
 
     // 纯数据传输
     peer.current.on('connection', (connection) => {
       connection.on('data', (data) => {
-        console.log('已接收对方信息', data);
+        message.info('对方: ' + data);
+        console.log('对方: ' + data);
       })
       connection.send('焯！')
 
@@ -102,11 +105,11 @@ const App = () => {
 
   return (
     <div className={styles.container}>
-      <h1>本地 Peer ID: {localId}</h1>
+      <h1>本地 Peer ID: {localId || <Spin spinning={loading} />}</h1>
       <Space>
         <Input value={remoteId} onChange={e => setRemoteId(e.target.value)} type="text" placeholder="对方 Peer 的 Id"/>
         <Button type="primary" onClick={callUser}>视频通话</Button>
-        <Button danger onClick={endCall}>结束通话</Button>
+        <Button type="primary" danger onClick={endCall}>结束通话</Button>
       </Space>
 
       <Row gutter={16} className={styles.live}>
