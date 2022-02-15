@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import Peer from "peerjs";
 
 import styles from './styles.module.scss'
-import {Button, Col, Input, message, Modal, Row, Space, Spin, Switch} from "antd";
+import {Button, Col, Input, List, message, Row, Space, Spin, Tag} from "antd";
 
 const { TextArea } = Input;
 
@@ -149,14 +149,18 @@ const App = () => {
       <h1>发送消息</h1>
       <div>
         <h2>消息列表</h2>
-        <ul>
-          {messages.map(msg => (
-            <li key={msg.id}>
-              <span>{msg.type === 'local' ? '我' : '对方'}：</span>
-              <span>{msg.data}</span>
-            </li>
-          ))}
-        </ul>
+        <List
+          itemLayout="horizontal"
+          dataSource={messages}
+          renderItem={msg => (
+            <List.Item key={msg.id}>
+              <div>
+                <span>{msg.type === 'local' ? <Tag color="red">我</Tag> : <Tag color="green">对方</Tag>}</span>
+                <span>{msg.data}</span>
+              </div>
+            </List.Item>
+          )}
+        />
 
         <h2>自定义消息</h2>
         <TextArea placeholder="发送自定义内容" value={customMsg} onChange={e => setCustomMsg(e.target.value)} rows={4} />
