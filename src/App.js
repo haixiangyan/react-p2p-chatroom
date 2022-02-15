@@ -164,7 +164,7 @@ const App = () => {
 
         <h2>自定义消息</h2>
         <TextArea placeholder="发送自定义内容" value={customMsg} onChange={e => setCustomMsg(e.target.value)} rows={4} />
-        <Button type="primary" onClick={sendMsg}>发送</Button>
+        <Button block type="primary" onClick={sendMsg} style={{ marginTop: 16 }}>发送</Button>
       </div>
     </div>
   );
