@@ -1,11 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 import Peer from "peerjs";
 
-function App() {
+import styles from './styles.module.scss'
+
+const App = () => {
   const [localId, setLocalId] = useState('');
   const [remoteId, setRemoteId] = useState('');
 
   const currentCall = useRef();
+  const currentConnect = useRef();
 
   const peer = useRef()
 
@@ -13,29 +16,7 @@ function App() {
   const remoteVideo = useRef();
 
   useEffect(() => {
-    peer.current = new Peer();
-    peer.current.on("open", (id) => {
-      setLocalId(id)
-    });
-    peer.current.on('call', async (call) => {
-      if (window.confirm(`是否接受 ${call.peer}?`)) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-        localVideo.current.srcObject = stream
-        localVideo.current.play()
-
-        call.answer(stream)
-
-        currentCall.current = call
-
-        call.on('stream', (stream) => {
-          remoteVideo.current.srcObject = stream;
-          remoteVideo.current.play()
-        })
-      } else {
-        call.close()
-        alert('已关闭')
-      }
-    })
+    createPeer()
 
     return () => {
       endCall()
@@ -48,18 +29,60 @@ function App() {
     }
   }
 
+  const createPeer = () => {
+    peer.current = new Peer();
+    peer.current.on("open", (id) => {
+      setLocalId(id)
+    });
+    peer.current.on('call', async (call) => {
+      if (window.confirm(`是否接受 ${call.peer}?`)) {
+        // 获取本地流
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        localVideo.current.srcObject = stream
+        localVideo.current.play()
+
+        // 响应
+        call.answer(stream)
+
+        // 监听视频流，并更新到 remoteVideo 上
+        call.on('stream', (stream) => {
+          remoteVideo.current.srcObject = stream;
+          remoteVideo.current.play()
+        })
+
+        currentCall.current = call
+      } else {
+        call.close()
+        alert('已关闭')
+      }
+    })
+    peer.current.on('connection', (connection) => {
+      connection.on('data', (data) => {
+        console.log('已接收对方信息', data);
+      })
+
+      currentConnect.current = connection
+    })
+
+  }
+
   const callUser = async () => {
+    // 获取本地视频流
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     localVideo.current.srcObject = stream
     localVideo.current.play()
 
+    // 数据连接
+    currentConnect.current = peer.current.connect(remoteId);
+    currentConnect.current.on('open', () => {
+      currentConnect.current.send('Hi，我是你爹，收到请务必回复！')
+    })
+
+    // 多媒体 call
     const call = peer.current.call(remoteId, stream)
     call.on("stream", (stream) => {
       remoteVideo.current.srcObject = stream;
       remoteVideo.current.play()
-    });
-    call.on("data", (stream) => {
-      remoteVideo.current.srcObject = stream;
     });
     call.on("error", (err) => {
       console.error(err);
@@ -73,14 +96,14 @@ function App() {
 
   return (
     <div>
-      <p>Your ID: {localId}</p>
-      <input value={remoteId} onChange={e => setRemoteId(e.target.value)} type="text" placeholder="Peer id"/>
+      <p>本地 Peer ID: {localId}</p>
+      <input value={remoteId} onChange={e => setRemoteId(e.target.value)} type="text" placeholder="对方 Peer 的 Id"/>
       <button onClick={callUser}>Connect</button>
+      <button id="end-call" onClick={endCall}>End Call</button>
 
-      <div id="live">
-        <video ref={localVideo} />
-        <video ref={remoteVideo} muted />
-        <button id="end-call" onClick={endCall}>End Call</button>
+      <div className={styles.live}>
+        <video className={styles.localVideo} ref={localVideo} />
+        <video className={styles.remoteVideo} ref={remoteVideo} muted />
       </div>
     </div>
   );

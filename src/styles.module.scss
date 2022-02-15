@@ -1,0 +1,16 @@
+.live {
+  display: flex;
+  position: relative;
+
+  .remoteVideo {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .localVideo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+  }
+}
