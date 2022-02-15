@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/react-chatroom-peer.js/static/css/main.7b0572bc.css",
-    "main.js": "/react-chatroom-peer.js/static/js/main.bf99d0fd.js",
-    "index.html": "/react-chatroom-peer.js/index.html",
-    "main.7b0572bc.css.map": "/react-chatroom-peer.js/static/css/main.7b0572bc.css.map",
-    "main.bf99d0fd.js.map": "/react-chatroom-peer.js/static/js/main.bf99d0fd.js.map"
+    "main.css": "/react-p2p-chatroom/static/css/main.7b0572bc.css",
+    "main.js": "/react-p2p-chatroom/static/js/main.bf99d0fd.js",
+    "index.html": "/react-p2p-chatroom/index.html",
+    "main.7b0572bc.css.map": "/react-p2p-chatroom/static/css/main.7b0572bc.css.map",
+    "main.bf99d0fd.js.map": "/react-p2p-chatroom/static/js/main.bf99d0fd.js.map"
   },
   "entrypoints": [
     "static/css/main.7b0572bc.css",
