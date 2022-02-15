@@ -107,8 +107,14 @@ const App = () => {
       <button id="end-call" onClick={endCall}>结束通话</button>
 
       <div className={styles.live}>
-        <video controls className={styles.localVideo} autoPlay ref={localVideo} />
-        <video controls className={styles.remoteVideo} autoPlay ref={remoteVideo} muted />
+        <div className={styles.local}>
+          <h2>本地摄像头</h2>
+          <video controls autoPlay ref={localVideo} />
+        </div>
+        <div className={styles.remote}>
+          <h2>远程摄像头</h2>
+          <video controls autoPlay ref={remoteVideo} muted />
+        </div>
       </div>
     </div>
   );

@@ -2,15 +2,18 @@
   display: flex;
   position: relative;
 
-  .remoteVideo {
-    width: 100%;
-    max-width: 500px;
+  .local {
+    width: 45%;
+    margin-right: 16px;
+    video {
+      width: 100%;
+    }
   }
 
-  .localVideo {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 200px;
+  .remote {
+    width: 45%;
+    video {
+      width: 100%;
+    }
   }
 }
