@@ -116,11 +116,15 @@ const App = () => {
     if (!currentConnection.current) {
       message.warn('还未建立链接')
     }
+    if (!customMsg) {
+      return;
+    }
     currentConnection.current.send(customMsg)
     setMessages((curtMessages) => [
       ...curtMessages,
       { id: curtMessages.length + 1, type: 'local', data: customMsg }
     ])
+    setCustomMsg('');
   }
 
   return (
@@ -163,8 +167,20 @@ const App = () => {
         />
 
         <h2>自定义消息</h2>
-        <TextArea placeholder="发送自定义内容" value={customMsg} onChange={e => setCustomMsg(e.target.value)} rows={4} />
-        <Button block type="primary" onClick={sendMsg} style={{ marginTop: 16 }}>发送</Button>
+        <TextArea
+          placeholder="发送自定义内容"
+          value={customMsg}
+          onChange={e => setCustomMsg(e.target.value)}
+          onEnter={sendMsg}
+          rows={4}
+        />
+        <Button
+          disabled={!customMsg}
+          type="primary"
+          onClick={sendMsg}
+          style={{ marginTop: 16 }}>
+          发送
+        </Button>
       </div>
     </div>
   );
