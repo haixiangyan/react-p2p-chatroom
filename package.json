@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3"
+    "gh-pages": "^3.2.3",
+    "vconsole": "^3.11.2"
   }
 }
