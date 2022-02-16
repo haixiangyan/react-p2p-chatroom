@@ -138,11 +138,11 @@ const App = () => {
       <Row gutter={16} className={styles.live}>
         <Col span={12}>
           <h2>本地摄像头</h2>
-          <video controls autoPlay ref={localVideo} />
+          <video controls autoPlay ref={localVideo} muted />
         </Col>
         <Col span={12}>
           <h2>远程摄像头</h2>
-          <video controls autoPlay ref={remoteVideo} muted />
+          <video controls autoPlay ref={remoteVideo} />
         </Col>
       </Row>
 
